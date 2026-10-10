@@ -14,6 +14,9 @@ flowchart TB
     API --> Drive
     API --> ZTE
     API --> RTP
+    LuCI["LuCI 映湾影视"]
+    UCI["/etc/config/yingbay"]
+    LuCI --> UCI --> API
 ```
 
 单端口对外。生产模式由 Node 托管 `web/dist` 并把 `/api` 留在同进程。
@@ -21,3 +24,5 @@ flowchart TB
 点播：Alist `raw_url`、阿里云盘 download url 优先；需要特殊请求头时走 `/proxy` Range 中转。
 
 直播：HLS/HTTP 直连源地址；RTP/UDP 组播走 `/api/rtp|udp/{group}/{port}`，套接字按观看人数引用计数。
+
+OpenWrt 上 LuCI 写 UCI，init 脚本按 UCI 拉起 Node；Node 读 UCI 覆盖网盘与 IPTV 参数。插件包为 `yingbay_*.apk` 与 `luci-app-yingbay_*.apk`。

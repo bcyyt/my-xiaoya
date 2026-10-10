@@ -1,0 +1,44 @@
+{
+	"admin/services/yingbay": {
+		"title": "映湾影视",
+		"order": 70,
+		"action": {
+			"type": "firstchild"
+		},
+		"depends": {
+			"acl": [ "luci-app-yingbay" ]
+		}
+	},
+	"admin/services/yingbay/overview": {
+		"title": "总览",
+		"order": 10,
+		"action": {
+			"type": "view",
+			"path": "yingbay/overview"
+		}
+	},
+	"admin/services/yingbay/service": {
+		"title": "服务",
+		"order": 20,
+		"action": {
+			"type": "view",
+			"path": "yingbay/service"
+		}
+	},
+	"admin/services/yingbay/drives": {
+		"title": "网盘",
+		"order": 30,
+		"action": {
+			"type": "view",
+			"path": "yingbay/drives"
+		}
+	},
+	"admin/services/yingbay/iptv": {
+		"title": "IPTV",
+		"order": 40,
+		"action": {
+			"type": "view",
+			"path": "yingbay/iptv"
+		}
+	}
+}

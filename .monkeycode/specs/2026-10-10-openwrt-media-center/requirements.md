@@ -80,3 +80,14 @@
 1. WHEN 管理员执行启动脚本或 init.d 服务, the System SHALL 在局域网端口提供 Web 界面与 API。
 2. THE System SHALL 将配置保存在本地 JSON 文件，重启后恢复挂载与 IPTV 参数。
 3. THE System SHALL 提供 IPTV VLAN、igmpproxy/omcproxy 与防火墙的说明，便于组播进入路由器。
+
+### Requirement 7: LuCI 插件与 apk 包
+
+**User Story:** AS OpenWrt 管理员, I want 在 LuCI 里管理映湾并安装 apk 插件包, so that 不用改命令行也能配云盘和 IPTV。
+
+#### Acceptance Criteria
+
+1. WHEN 管理员安装 luci-app-yingbay, the System SHALL 在 LuCI「服务 -> 映湾影视」提供总览、服务、网盘、IPTV 四个页面。
+2. WHEN 管理员在 LuCI 保存 UCI 配置, the System SHALL 把端口、网盘、中兴鉴权参数写入 `/etc/config/yingbay`，并在服务重启后生效。
+3. WHEN 管理员执行打包脚本, the System SHALL 生成 `yingbay_*.apk` 与 `luci-app-yingbay_*.apk`。
+4. WHEN 总览页打开, the System SHALL 显示服务运行状态、端口，并提供打开放映厅、启动、重启按钮。

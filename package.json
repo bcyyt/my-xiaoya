@@ -7,7 +7,8 @@
     "start": "node server/index.js",
     "dev:server": "node server/index.js",
     "dev": "node server/index.js",
-    "build": "npm --prefix web install && npm --prefix web run build"
+    "build": "npm --prefix web install && npm --prefix web run build",
+    "build:apk": "node scripts/build-apk.js"
   },
   "dependencies": {
     "fast-xml-parser": "^4.5.0"

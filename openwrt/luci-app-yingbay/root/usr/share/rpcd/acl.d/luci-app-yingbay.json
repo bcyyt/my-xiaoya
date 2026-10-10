@@ -1,0 +1,22 @@
+{
+	"luci-app-yingbay": {
+		"description": "Grant access to YingBay media center",
+		"read": {
+			"ubus": {
+				"service": [ "list" ],
+				"luci.yingbay": [ "status" ]
+			},
+			"uci": [ "yingbay" ]
+		},
+		"write": {
+			"ubus": {
+				"service": [ "restart" ],
+				"luci.yingbay": [ "restart", "auth" ]
+			},
+			"uci": [ "yingbay" ],
+			"file": {
+				"/etc/init.d/yingbay": [ "exec" ]
+			}
+		}
+	}
+}

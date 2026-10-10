@@ -18,8 +18,18 @@ PORT=3000 npm start
 - `server/rtp2http.js` 组播转 HTTP
 - `web/src/views` 放映厅页面
 
+## 打 apk
+
+```bash
+npm --prefix web run build
+node scripts/build-apk.js
+```
+
+产物在 `dist/apk/`。LuCI 源码在 `openwrt/luci-app-yingbay/`。
+
 ## 约定
 
 - 配置只写 `data/state.json`
+- OpenWrt 上同时写 `/etc/config/yingbay`
 - 直链字段名 `directUrl`，中转 `relayUrl`
 - 组播 URL 保持 udpxy 风格

@@ -10,6 +10,31 @@
 - 内置 rtp2http / udpxy 兼容路径，把组播变成手机可播的 HTTP TS
 - 演示片库与公开 HLS，没接盘也能先把界面跑通
 
+## LuCI 与 apk 插件
+
+LuCI 菜单：**服务 → 映湾影视**（总览 / 服务 / 网盘 / IPTV）。
+
+```bash
+# 先构建放映厅前端，再打 apk
+npm --prefix web run build
+node scripts/build-apk.js
+```
+
+生成文件在 `dist/apk/`：
+
+- `yingbay_1.1.0-r1_all.apk` 后端 + 放映厅
+- `luci-app-yingbay_1.1.0-r1_all.apk` LuCI 插件
+
+OpenWrt 25+ / snapshot（apk）：
+
+```bash
+apk add node
+apk add --allow-untrusted ./yingbay_1.1.0-r1_all.apk
+apk add --allow-untrusted ./luci-app-yingbay_1.1.0-r1_all.apk
+```
+
+用官方 SDK 编译时，把 `openwrt/` 与 `openwrt/luci-app-yingbay/` 放进 package 源，同样会出 apk。
+
 ## 本地启动
 
 ```bash
@@ -30,6 +55,8 @@ npm start
 2. IPTV 组播需要独立 VLAN / 光猫桥接，常见做法是 `igmpproxy` 或 `omcproxy` 把 WAN 组播灌进 LAN。
 3. 防火墙放行 UDP 组播与本服务 TCP 3000。
 4. 把项目拷到 `/opt/yingbay`，用 `openwrt/files/yingbay.init` 做成 `init.d` 服务。
+
+装好 apk 后服务目录就是 `/opt/yingbay`，UCI 在 `/etc/config/yingbay`。
 
 组播播放地址习惯与 udpxy / rtp2httpd 相同：
 

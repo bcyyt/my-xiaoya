@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const uci = require("./uci");
 
 const DATA_DIR = path.join(__dirname, "..", "data");
 const STATE_FILE = path.join(DATA_DIR, "state.json");
@@ -47,12 +48,13 @@ function read() {
   ensure();
   try {
     const raw = JSON.parse(fs.readFileSync(STATE_FILE, "utf8"));
-    return Object.assign(defaultState(), raw, {
+    const state = Object.assign(defaultState(), raw, {
       iptv: Object.assign(defaultState().iptv, raw.iptv || {}),
       drives: Array.isArray(raw.drives) && raw.drives.length ? raw.drives : defaultState().drives,
     });
+    return uci.applyTo(state);
   } catch (err) {
-    return defaultState();
+    return uci.applyTo(defaultState());
   }
 }
 
@@ -61,6 +63,7 @@ function write(state) {
   const tmp = STATE_FILE + ".tmp";
   fs.writeFileSync(tmp, JSON.stringify(state, null, 2));
   fs.renameSync(tmp, STATE_FILE);
+  uci.exportFrom(state);
 }
 
 function update(mutator) {

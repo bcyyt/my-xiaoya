@@ -4,6 +4,8 @@
       <div class="brand"><b>机房</b><span>ZTE auth · EPG · multicast</span></div>
     </header>
 
+    <p class="muted">路由器管理页：LuCI → 服务 → 映湾影视。这里改的 IPTV 参数会写回 UCI。</p>
+
     <section class="section">
       <h2>中兴 IPTV 鉴权</h2>
       <p class="muted">填写机顶盒同款 UserID / 密码 / MAC / STBID。鉴权成功后自动拉频道和 EPG。组播节目由内置 rtp2http 转成手机可播的 HTTP TS。</p>

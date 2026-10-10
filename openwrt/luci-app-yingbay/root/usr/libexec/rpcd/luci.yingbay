@@ -1,0 +1,60 @@
+#!/bin/sh
+
+. /usr/share/libubox/jshn.sh
+
+port() {
+	uci -q get yingbay.main.port 2>/dev/null || echo 3000
+}
+
+is_running() {
+	if [ -f /var/run/yingbay.pid ]; then
+		pid=$(cat /var/run/yingbay.pid 2>/dev/null)
+		[ -n "$pid" ] && kill -0 "$pid" 2>/dev/null && return 0
+	fi
+	pgrep -f "/opt/yingbay/server/index.js" >/dev/null 2>&1
+}
+
+fetch_url() {
+	wget -qO- "$1" 2>/dev/null || uclient-fetch -q -O - "$1" 2>/dev/null
+}
+
+case "$1" in
+	list)
+		echo '{"status":{},"restart":{},"auth":{}}'
+		;;
+	call)
+		case "$2" in
+			status)
+				p=$(port)
+				json_init
+				if is_running; then
+					json_add_boolean running 1
+				else
+					json_add_boolean running 0
+				fi
+				json_add_int port "$p"
+				json_add_string site "$(uci -q get yingbay.main.site_name 2>/dev/null || echo YingBay)"
+				health=$(fetch_url "http://127.0.0.1:${p}/api/health")
+				json_add_string health "${health}"
+				json_dump
+				;;
+			restart)
+				/etc/init.d/yingbay restart >/dev/null 2>&1
+				json_init
+				json_add_boolean ok 1
+				json_dump
+				;;
+			auth)
+				p=$(port)
+				json_init
+				if command -v curl >/dev/null 2>&1; then
+					body=$(curl -s -m 20 -X POST "http://127.0.0.1:${p}/api/iptv/auth" -H "Content-Type: application/json" -d "{}")
+				else
+					body=$(node -e "fetch('http://127.0.0.1:${p}/api/iptv/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}).then(r=>r.text()).then(t=>process.stdout.write(t)).catch(e=>{process.stdout.write(JSON.stringify({ok:false,error:String(e)}))})")
+				fi
+				json_add_string result "$body"
+				json_dump
+				;;
+		esac
+		;;
+esac
