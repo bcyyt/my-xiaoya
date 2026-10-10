@@ -1,0 +1,18 @@
+{
+  "name": "my-xiaoya",
+  "version": "1.0.0",
+  "private": true,
+  "description": "映湾：OpenWrt 影视中心，云盘直连与 IPTV 直播",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev:server": "node server/index.js",
+    "dev": "node server/index.js",
+    "build": "npm --prefix web install && npm --prefix web run build"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

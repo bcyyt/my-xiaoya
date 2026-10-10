@@ -1,0 +1,6 @@
+node_modules
+web/node_modules
+web/dist
+data/state.json
+data/*.tmp
+.DS_Store
